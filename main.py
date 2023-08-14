@@ -18,7 +18,7 @@ class Game:
         self.lines_surface.set_alpha(60)
         
         #snake
-        self.snake = Snake((0,0))
+        self.snake = Snake((5,5))
         
 
     def quit_game(self, event):
@@ -29,6 +29,7 @@ class Game:
     def event_loop(self):
         for event in pygame.event.get():
                 self.quit_game(event)
+                self.snake.event_manager(event)
     
     def get_delta_time(self):
         current_time = pygame.time.get_ticks()
@@ -62,6 +63,8 @@ class Game:
             self.event_loop()
             
             self.draw()
+            
+            self.snake.update(dt)
             
             self.clock.tick()
                 
