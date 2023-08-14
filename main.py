@@ -1,20 +1,21 @@
 import pygame, sys
 import cons
 
-pygame.init()
-
-screen = pygame.display.set_mode((cons.WINDOW_WIDTH, cons.WINDOW_HEIGHT))
-pygame.display.set_caption(cons.TITLE)
-
-clock = pygame.time.Clock()
-
 class Game:
     def __init__(self) -> None:
+        pygame.init()
         self.screen = pygame.display.set_mode((cons.WINDOW_WIDTH, cons.WINDOW_HEIGHT))
         pygame.display.set_caption(cons.TITLE)
 
+        #clock
         self.clock = pygame.time.Clock()
         self.prev_time = pygame.time.get_ticks()
+        
+        #support lines
+        self.lines_surface = pygame.Surface((cons.WINDOW_WIDTH, cons.WINDOW_HEIGHT))
+        self.lines_surface.set_colorkey("green")
+        self.lines_surface.set_alpha(60)
+        
 
     def quit_game(self, event):
         if event.type == pygame.QUIT:
@@ -31,13 +32,26 @@ class Game:
         self.prev_time = current_time
         return dt
     
+    def draw_lines(self):
+        self.lines_surface.fill("green")
+        
+        for x in range(0, cons.WINDOW_WIDTH, cons.SQUARE_SIZE):
+            pygame.draw.line(self.lines_surface, cons.LINE_COLOR, (x, 0) , (x, cons.WINDOW_HEIGHT), 1)
+        
+        for y in range(0, cons.WINDOW_HEIGHT, cons.SQUARE_SIZE):
+            pygame.draw.line(self.lines_surface, cons.LINE_COLOR, (0, y) , (cons.WINDOW_WIDTH, y), 1)
+        
+        self.screen.blit(self.lines_surface, (0, 0))
+    
     def run(self):
         while True:
             dt = self.get_delta_time()
             
             self.event_loop()
             
-            self.screen.fill("gray")
+            self.screen.fill(cons.BACKGROUND_COLOR)
+            self.draw_lines()
+            
             
             pygame.display.flip()
             
