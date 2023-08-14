@@ -20,13 +20,16 @@ class Snake:
         
         self.delta = 0
         
+        self.is_alive = True
+        
     def cell_to_pos(self, cell):
         return [cell[0] * cons.SQUARE_SIZE, cell[1] * cons.SQUARE_SIZE]
     
     def draw(self):
-        pygame.draw.rect(self.screen, "red", self.head)
         for rect in self.tail:
             pygame.draw.rect(self.screen, "green", rect)
+        
+        pygame.draw.rect(self.screen, "red", self.head)
     
     def move(self,dt):
         self.delta += dt
@@ -62,6 +65,13 @@ class Snake:
             self.direction = cons.Direction.UP
         if event.key == pygame.K_DOWN and self.direction != cons.Direction.UP:
             self.direction = cons.Direction.DOWN
+
+    def self_collide(self):
+        for rect in self.tail:
+            if self.head.colliderect(rect):
+                self.is_alive = False
     
     def update(self, dt):
-        self.move(dt)
+        self.self_collide()
+        if self.is_alive:
+            self.move(dt)
