@@ -17,7 +17,7 @@ LINE_COLOR.a = 128
 
 BACKGROUND_COLOR = pygame.Color("gray")
 
-SPEED = 1
+SPEED = 0.3
 
 class Direction(Enum):
     UP = Vector(0, -SQUARE_SIZE)

@@ -8,7 +8,10 @@ class Snake:
     def __init__(self, cell) -> None:
         self.screen = pygame.display.get_surface()
         self.head = pygame.Rect(self.cell_to_pos(cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
-        
+        self.tail = []
+        for x in range(1,4):
+            tail_cell = [cell[0] - x, cell[1]]
+            self.tail.append(pygame.Rect(self.cell_to_pos(tail_cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE)))
         self.direction = cons.Direction.RIGHT
         
         self.delta = 0
@@ -18,6 +21,8 @@ class Snake:
     
     def draw(self):
         pygame.draw.rect(self.screen, "red", self.head)
+        for rect in self.tail:
+            pygame.draw.rect(self.screen, "green", rect)
     
     def move(self,dt):
         self.delta += dt
@@ -25,6 +30,8 @@ class Snake:
             self.delta -= self.delta
         
             self.head.topleft = Vector(self.head.topleft) + self.direction.value
+            for rect in self.tail:
+                rect.topleft = Vector(rect.topleft) + self.direction.value
     
     def event_manager(self, event):
         if event.type == pygame.KEYDOWN:
