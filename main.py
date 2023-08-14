@@ -2,6 +2,7 @@ import pygame, sys
 import cons
 from snake import Snake
 from ballGenerator import BallGenerator
+from wall import Wall
 
 class Game:
     def __init__(self) -> None:
@@ -22,6 +23,8 @@ class Game:
         self.snake = Snake((5,5))
         
         self.ball = BallGenerator(self.snake)
+        
+        Wall.create_boundry_wall()
         
 
     def quit_game(self, event):
@@ -54,6 +57,7 @@ class Game:
     def draw(self):
         self.screen.fill(cons.BACKGROUND_COLOR)
         
+        Wall.draw_all()
         self.snake.draw()
         self.ball.draw()
         

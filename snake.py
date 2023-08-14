@@ -1,7 +1,7 @@
 import pygame
 from pygame.math import Vector2 as Vector
 import cons
-
+from wall import Wall
 
 
 class Snake:
