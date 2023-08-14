@@ -26,17 +26,21 @@ class Game:
         
         self.ball = BallGenerator(self.snake)
         
-        
-
     def quit_game(self, event):
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
+    def play_again(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not self.snake.is_alive:
+            self.snake = Snake((5,5))
+            self.ball = BallGenerator(self.snake)
+
     def event_loop(self):
         for event in pygame.event.get():
-                self.quit_game(event)
-                self.snake.event_manager(event)
+            self.quit_game(event)
+            self.snake.event_manager(event)
+            self.play_again(event)
     
     def get_delta_time(self):
         current_time = pygame.time.get_ticks()
