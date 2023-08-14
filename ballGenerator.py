@@ -13,8 +13,8 @@ class BallGenerator:
         self.generate_ball()
         
     def generate_ball(self):
-        x = int(random.randint(0, cons.WINDOW_WIDTH) / cons.SQUARE_SIZE) * cons.SQUARE_SIZE
-        y = int(random.randint(0, cons.WINDOW_HEIGHT) / cons.SQUARE_SIZE) * cons.SQUARE_SIZE
+        x = int(random.randint(0, cons.WINDOW_WIDTH -1) / cons.SQUARE_SIZE) * cons.SQUARE_SIZE
+        y = int(random.randint(0, cons.WINDOW_HEIGHT -1) / cons.SQUARE_SIZE) * cons.SQUARE_SIZE
         
         self.ball = pygame.Rect((x,y), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
         if self.collide_with_snake() or Wall.collide_with_any(self.ball):
