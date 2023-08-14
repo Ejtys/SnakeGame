@@ -1,5 +1,6 @@
 import pygame, sys
 import cons
+from snake import Snake
 
 class Game:
     def __init__(self) -> None:
@@ -15,6 +16,9 @@ class Game:
         self.lines_surface = pygame.Surface((cons.WINDOW_WIDTH, cons.WINDOW_HEIGHT))
         self.lines_surface.set_colorkey("green")
         self.lines_surface.set_alpha(60)
+        
+        #snake
+        self.snake = Snake((0,0))
         
 
     def quit_game(self, event):
@@ -43,17 +47,21 @@ class Game:
         
         self.screen.blit(self.lines_surface, (0, 0))
     
+    def draw(self):
+        self.screen.fill(cons.BACKGROUND_COLOR)
+        
+        self.snake.draw()
+        
+        self.draw_lines()      
+        pygame.display.flip()
+    
     def run(self):
         while True:
             dt = self.get_delta_time()
             
             self.event_loop()
             
-            self.screen.fill(cons.BACKGROUND_COLOR)
-            self.draw_lines()
-            
-            
-            pygame.display.flip()
+            self.draw()
             
             self.clock.tick()
                 
