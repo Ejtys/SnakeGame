@@ -1,6 +1,7 @@
 import pygame, sys
 import cons
 from snake import Snake
+from ballGenerator import BallGenerator
 
 class Game:
     def __init__(self) -> None:
@@ -19,6 +20,8 @@ class Game:
         
         #snake
         self.snake = Snake((5,5))
+        
+        self.ball = BallGenerator(self.snake)
         
 
     def quit_game(self, event):
@@ -52,6 +55,7 @@ class Game:
         self.screen.fill(cons.BACKGROUND_COLOR)
         
         self.snake.draw()
+        self.ball.draw()
         
         self.draw_lines()      
         pygame.display.flip()
@@ -64,7 +68,9 @@ class Game:
             
             self.draw()
             
+            self.ball.update()
             self.snake.update(dt)
+            
             
             self.clock.tick()
                 
