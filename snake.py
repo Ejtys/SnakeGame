@@ -71,7 +71,12 @@ class Snake:
             if self.head.colliderect(rect):
                 self.is_alive = False
     
+    def collide_with_wall(self):
+        if Wall.collide_with_any(self.head):
+            self.is_alive = False
+    
     def update(self, dt):
         self.self_collide()
+        self.collide_with_wall()
         if self.is_alive:
             self.move(dt)
