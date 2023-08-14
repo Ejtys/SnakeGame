@@ -12,7 +12,6 @@ WINDOW_HEIGHT = ROWS * SQUARE_SIZE
 
 
 LINE_COLOR = pygame.Color("black")
-LINE_COLOR.a = 128
 
 
 BACKGROUND_COLOR = pygame.Color("gray")

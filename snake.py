@@ -10,9 +10,11 @@ class Snake:
         self.head = pygame.Rect(self.cell_to_pos(cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
         
         self.tail = []
-        for x in range(4,0, -1):
+        for x in range(4, 0, -1):
             tail_cell = [cell[0] - x, cell[1]]
             self.tail.append(pygame.Rect(self.cell_to_pos(tail_cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE)))
+        self.tail_is_growing = False
+        
         self.direction = cons.Direction.RIGHT
         self.direction_list = [cons.Direction.RIGHT for _ in range(len(self.tail))]
         
@@ -30,14 +32,22 @@ class Snake:
         self.delta += dt
         if self.delta >= cons.SPEED:
             self.delta -= self.delta
-        
+    
+            if self.tail_is_growing:
+                self.tail.append(self.head.copy())
+                self.direction_list.append(self.direction)
+                self.tail_is_growing = False
+            else:
+                for rect, direction in zip(self.tail, self.direction_list):
+                    rect.topleft = Vector(rect.topleft) + direction.value
+            
+                del self.direction_list[0]
+                self.direction_list.append(self.direction)
+                
             self.head.topleft = Vector(self.head.topleft) + self.direction.value
-            
-            for rect, direction in zip(self.tail, self.direction_list):
-                rect.topleft = Vector(rect.topleft) + direction.value
-            
-            del self.direction_list[0]
-            self.direction_list.append(self.direction)
+    
+    def grow(self):
+        self.tail_is_growing = True
     
     def event_manager(self, event):
         if event.type == pygame.KEYDOWN:
