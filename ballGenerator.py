@@ -16,12 +16,19 @@ class BallGenerator:
         y = int(random.randint(0, cons.WINDOW_HEIGHT) / cons.SQUARE_SIZE) * cons.SQUARE_SIZE
         
         self.ball = pygame.Rect((x,y), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
-       
-    def on_collide_with_snake(self):
+        if self.collide_with_snake():
+            self.generate_ball()
+    
+    def collide_with_snake(self):
         for rect in self.snake.tail + [self.snake.head]:
             if self.ball.colliderect(rect):
-                self.snake.grow()
-                self.generate_ball()
+                return True
+        return False
+    
+    def on_collide_with_snake(self):
+        if self.collide_with_snake():
+            self.snake.grow()
+            self.generate_ball()
         
     def draw(self):
         pygame.draw.rect(self.screen, "yellow", self.ball)
