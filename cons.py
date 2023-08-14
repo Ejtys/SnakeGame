@@ -4,8 +4,8 @@ from enum import Enum
 
 TITLE = "Snake"
 
-ROWS = 24
-COLS = 32
+ROWS = 16
+COLS = 24
 SQUARE_SIZE = 32
 WINDOW_WIDTH = COLS * SQUARE_SIZE
 WINDOW_HEIGHT = ROWS * SQUARE_SIZE
@@ -16,7 +16,7 @@ LINE_COLOR = pygame.Color("black")
 
 BACKGROUND_COLOR = pygame.Color("gray")
 
-SPEED = 0.3
+SPEED = 0.1
 
 class Direction(Enum):
     UP = Vector(0, -SQUARE_SIZE)
