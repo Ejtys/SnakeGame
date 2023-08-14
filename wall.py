@@ -28,3 +28,10 @@ class Wall:
     def draw_all():
         for wall in Wall.wall_group:
             wall.draw()
+            
+    @staticmethod
+    def collide_with_any(rect):
+        for wall in Wall.wall_group:
+            if wall.rect.colliderect(rect):
+                return True
+        return False

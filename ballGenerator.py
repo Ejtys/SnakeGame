@@ -1,6 +1,7 @@
 import pygame, random
 import cons
 from snake import Snake
+from wall import Wall
 
 class BallGenerator:
     def __init__(self, snake:Snake):
@@ -16,7 +17,7 @@ class BallGenerator:
         y = int(random.randint(0, cons.WINDOW_HEIGHT) / cons.SQUARE_SIZE) * cons.SQUARE_SIZE
         
         self.ball = pygame.Rect((x,y), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
-        if self.collide_with_snake():
+        if self.collide_with_snake() or Wall.collide_with_any(self.ball):
             self.generate_ball()
     
     def collide_with_snake(self):

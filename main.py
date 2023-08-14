@@ -19,12 +19,13 @@ class Game:
         self.lines_surface.set_colorkey("green")
         self.lines_surface.set_alpha(60)
         
+        Wall.create_boundry_wall()
+        
         #snake
         self.snake = Snake((5,5))
         
         self.ball = BallGenerator(self.snake)
         
-        Wall.create_boundry_wall()
         
 
     def quit_game(self, event):
