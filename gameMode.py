@@ -43,7 +43,7 @@ class SinglePlayerWithWalls(GameMode):
         Wall.create_boundry_wall()
         
         #snake
-        self.snake = Snake((5,5))
+        self.snake = Snake((5,5), cons.Direction.UP)
         
         self.ball = BallGenerator(self.snake)
         

@@ -5,23 +5,35 @@ from wall import Wall
 
 
 class Snake:
-    def __init__(self, cell) -> None:
+    def __init__(self, cell, start_direction = cons.Direction.RIGHT) -> None:
         self.screen = pygame.display.get_surface()
         self.head = pygame.Rect(self.cell_to_pos(cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
         
-        self.tail = []
-        for x in range(4, 0, -1):
-            tail_cell = [cell[0] - x, cell[1]]
-            self.tail.append(pygame.Rect(self.cell_to_pos(tail_cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE)))
-        self.tail_is_growing = False
-        
-        self.direction = cons.Direction.RIGHT
-        self.next_direction = cons.Direction.RIGHT
-        self.direction_list = [cons.Direction.RIGHT for _ in range(len(self.tail))]
+        self.init_tail(cell, start_direction)
         
         self.delta = 0
         
         self.is_alive = True
+    
+    def init_tail(self, cell, start_direction):
+        self.tail = []
+        for x in range(4, 0, -1):
+            if start_direction == cons.Direction.RIGHT:
+                tail_cell = [cell[0] - x, cell[1]]
+            if start_direction == cons.Direction.LEFT:
+                tail_cell = [cell[0] + x, cell[1]]
+            if start_direction == cons.Direction.DOWN:
+                tail_cell = [cell[0], cell[1] - x]
+            if start_direction == cons.Direction.UP:
+                tail_cell = [cell[0], cell[1] + x]
+            self.tail.append(pygame.Rect(self.cell_to_pos(tail_cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE)))
+        
+        self.tail_is_growing = False
+        
+        self.direction = start_direction
+        self.next_direction = start_direction
+        self.direction_list = [start_direction for _ in range(len(self.tail))]
+            
         
     def cell_to_pos(self, cell):
         return [cell[0] * cons.SQUARE_SIZE, cell[1] * cons.SQUARE_SIZE]
