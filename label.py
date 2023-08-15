@@ -1,10 +1,11 @@
 import pygame
 
 class Label:
-    def __init__(self, text, position, font_size=24, color="black", font = None):
+    def __init__(self, text, position, font_size=24, color="black", font = None, func = None):
         self.text = text
         self.position = position
         self.font = pygame.font.Font(font, font_size)
+        self.func = func
         self.color = color
         self.rect = None
         

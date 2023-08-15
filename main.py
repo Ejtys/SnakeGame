@@ -1,6 +1,7 @@
 import pygame, sys
 import cons
-from gameMode import SinglePlayerWithWalls, SinglePlayerNoWalls, MultiPlayer
+from gameMode import SinglePlayerWithWalls, SinglePlayerNoWalls, MultiPlayer, GameMode
+from menu import Menu
 
 class Game:
     def __init__(self) -> None:
@@ -12,7 +13,12 @@ class Game:
         self.clock = pygame.time.Clock()
         self.prev_time = pygame.time.get_ticks()
         
-        self.game_mode = MultiPlayer()
+        self.game_mode = GameMode()
+        
+        self.main_menu = Menu("Select game mode:")
+        self.main_menu.add_label("Single player")
+        self.main_menu.add_label("Single player with walls")
+        self.main_menu.add_label("MultiPlayer")
         
     def quit_game(self, event):
         if event.type == pygame.QUIT:
@@ -23,6 +29,7 @@ class Game:
         for event in pygame.event.get():
             self.quit_game(event)
             self.game_mode.event_manager(event)
+            self.main_menu.event_manager(event)
     
     def get_delta_time(self):
         current_time = pygame.time.get_ticks()
@@ -34,6 +41,7 @@ class Game:
         self.screen.fill(cons.BACKGROUND_COLOR)
         
         self.game_mode.draw()
+        self.main_menu.draw()
               
         pygame.display.flip()
     
