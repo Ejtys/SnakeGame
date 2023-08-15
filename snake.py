@@ -5,8 +5,11 @@ from wall import Wall
 
 
 class Snake:
-    def __init__(self, cell, start_direction = cons.Direction.RIGHT) -> None:
+    def __init__(self, cell, start_direction = cons.Direction.RIGHT, controls = None) -> None:
         self.screen = pygame.display.get_surface()
+        
+        self.controls = controls
+        
         self.head = pygame.Rect(self.cell_to_pos(cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
         
         self.init_tail(cell, start_direction)
@@ -92,14 +95,25 @@ class Snake:
             self.direction = cons.Direction.DOWN
     
     def input_direction(self, event):
-        if event.key == pygame.K_LEFT and self.direction != cons.Direction.RIGHT:
-            self.next_direction = cons.Direction.LEFT
-        if event.key == pygame.K_RIGHT and self.direction != cons.Direction.LEFT:
-            self.next_direction = cons.Direction.RIGHT
-        if event.key == pygame.K_UP and self.direction != cons.Direction.DOWN:
-            self.next_direction = cons.Direction.UP
-        if event.key == pygame.K_DOWN and self.direction != cons.Direction.UP:
-            self.next_direction = cons.Direction.DOWN
+        if self.controls == "arrows" or not self.controls:
+            if event.key == pygame.K_LEFT and self.direction != cons.Direction.RIGHT:
+                self.next_direction = cons.Direction.LEFT
+            if event.key == pygame.K_RIGHT and self.direction != cons.Direction.LEFT:
+                self.next_direction = cons.Direction.RIGHT
+            if event.key == pygame.K_UP and self.direction != cons.Direction.DOWN:
+                self.next_direction = cons.Direction.UP
+            if event.key == pygame.K_DOWN and self.direction != cons.Direction.UP:
+                self.next_direction = cons.Direction.DOWN
+        
+        if self.controls == "wsad" or not self.controls:
+            if event.key == pygame.K_a and self.direction != cons.Direction.RIGHT:
+                self.next_direction = cons.Direction.LEFT
+            if event.key == pygame.K_d and self.direction != cons.Direction.LEFT:
+                self.next_direction = cons.Direction.RIGHT
+            if event.key == pygame.K_w and self.direction != cons.Direction.DOWN:
+                self.next_direction = cons.Direction.UP
+            if event.key == pygame.K_s and self.direction != cons.Direction.UP:
+                self.next_direction = cons.Direction.DOWN
 
     def get_score(self):
         return len(self.tail)
