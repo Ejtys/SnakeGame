@@ -50,34 +50,31 @@ class Snake:
         pygame.draw.rect(self.screen, self.colors[0], self.head)
     
     def move(self,dt):
-        self.delta += dt
-        if self.delta >= cons.SPEED:
-            self.delta -= self.delta
-    
-            self.update_direction_on_move()
-    
-            if self.tail_is_growing:
-                self.tail.append(self.head.copy())
-                self.direction_list.append(self.direction)
-                self.tail_is_growing = False
-            else:
-                for rect, direction in zip(self.tail, self.direction_list):
-                    rect.topleft = Vector(rect.topleft) + direction.value
+
+        self.update_direction_on_move()
+
+        if self.tail_is_growing:
+            self.tail.append(self.head.copy())
+            self.direction_list.append(self.direction)
+            self.tail_is_growing = False
+        else:
+            for rect, direction in zip(self.tail, self.direction_list):
+                rect.topleft = Vector(rect.topleft) + direction.value
+        
+            del self.direction_list[0]
+            self.direction_list.append(self.direction)
             
-                del self.direction_list[0]
-                self.direction_list.append(self.direction)
-                
-            self.head.topleft = Vector(self.head.topleft) + self.direction.value
-            
-            for rect in self.tail + [self.head]:
-                if rect.topleft[0] >= cons.WINDOW_WIDTH:
-                    rect.topleft = (0, rect.topleft[1])
-                if rect.topleft[0] < 0:
-                    rect.topleft = (cons.WINDOW_WIDTH - cons.SQUARE_SIZE, rect.topleft[1])
-                if rect.topleft[1] >= cons.WINDOW_HEIGHT:
-                    rect.topleft = (rect.topleft[0], 0)
-                if rect.topleft[1] < 0:
-                    rect.topleft = (rect.topleft[0], cons.WINDOW_HEIGHT - cons.SQUARE_SIZE)
+        self.head.topleft = Vector(self.head.topleft) + self.direction.value
+        
+        for rect in self.tail + [self.head]:
+            if rect.topleft[0] >= cons.WINDOW_WIDTH:
+                rect.topleft = (0, rect.topleft[1])
+            if rect.topleft[0] < 0:
+                rect.topleft = (cons.WINDOW_WIDTH - cons.SQUARE_SIZE, rect.topleft[1])
+            if rect.topleft[1] >= cons.WINDOW_HEIGHT:
+                rect.topleft = (rect.topleft[0], 0)
+            if rect.topleft[1] < 0:
+                rect.topleft = (rect.topleft[0], cons.WINDOW_HEIGHT - cons.SQUARE_SIZE)
                     
     def grow(self):
         self.tail_is_growing = True
@@ -132,7 +129,12 @@ class Snake:
     def collide_with_snake(self, snake:"Snake"):
         for rect in snake.tail:
             if self.head.colliderect(rect):
-                self.is_alive = False
+                if self.tail:
+                    del self.tail[0]
+                    del self.direction_list[0]
+                if not self.tail:
+                    self.is_alive = False
+                return
         
     def update(self, dt):
         self.self_collide()

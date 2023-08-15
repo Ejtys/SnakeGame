@@ -52,6 +52,7 @@ class Menu:
                     self.selected = len(self.labels) - 1
                 self.labels[self.selected].toggle_selected()
                 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                self.active = False
-                self.labels[self.selected].press_label()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    self.active = False
+                    self.labels[self.selected].press_label()
