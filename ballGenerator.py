@@ -4,10 +4,14 @@ from snake import Snake
 from wall import Wall
 
 class BallGenerator:
-    def __init__(self, snake:Snake):
+    def __init__(self, snake:Snake, snake2:Snake = None):
         self.screen = pygame.display.get_surface()
         
-        self.snake = snake
+        self.snakes = [snake]
+        if snake2:
+            self.snakes.append(snake2)
+            
+        self.colliding_snake = None
         
         self.ball = None
         self.generate_ball()
@@ -21,14 +25,17 @@ class BallGenerator:
             self.generate_ball()
     
     def collide_with_snake(self):
-        for rect in self.snake.tail + [self.snake.head]:
-            if self.ball.colliderect(rect):
-                return True
+        for snake in self.snakes:
+            for rect in snake.tail + [snake.head]:
+                if self.ball.colliderect(rect):
+                    self.colliding_snake = snake
+                    return True
+        self.colliding_snake = None
         return False
     
     def on_collide_with_snake(self):
         if self.collide_with_snake():
-            self.snake.grow()
+            self.colliding_snake.grow()
             self.generate_ball()
         
     def draw(self):
