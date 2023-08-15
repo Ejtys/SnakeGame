@@ -44,14 +44,15 @@ class SinglePlayerNoWalls(GameMode):
         #snake
         self.snake = Snake((5,5), cons.Direction.RIGHT)
         
-        self.ball = BallGenerator(self.snake)
+        self.balls = [BallGenerator(self.snake) for _ in range(3)]
         
         #UI
         self.score_label = Label("Score: 0", (cons.WINDOW_WIDTH / 2, 17))
         
     def draw(self):
         Wall.draw_all()
-        self.ball.draw()
+        for ball in self.balls:
+            ball.draw()
         self.snake.draw()
         
         self.draw_lines()
@@ -63,19 +64,21 @@ class SinglePlayerNoWalls(GameMode):
         self.play_again(event)
         
     def update(self, dt):
-        self.ball.update()
+        for ball in self.balls:
+            ball.update()
         self.snake.update(dt)
         self.score_label.update_text(f"Score: {self.snake.get_score()}")
         
     def play_again(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not self.snake.is_alive:
             self.snake = Snake((5,5))
-            self.ball = BallGenerator(self.snake)
+            self.balls = [BallGenerator(self.snake) for _ in range(len(self.balls))]
             
 class SinglePlayerWithWalls(SinglePlayerNoWalls):
     def __init__(self):
         super().__init__()
         Wall.create_boundry_wall()
+        self.balls = [BallGenerator(self.snake) for _ in range(3)]
         
 class MultiPlayer(GameMode):
     def __init__(self):
