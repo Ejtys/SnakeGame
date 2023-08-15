@@ -51,7 +51,17 @@ class Snake:
                 self.direction_list.append(self.direction)
                 
             self.head.topleft = Vector(self.head.topleft) + self.direction.value
-    
+            
+            for rect in self.tail + [self.head]:
+                if rect.topleft[0] >= cons.WINDOW_WIDTH:
+                    rect.topleft = (0, rect.topleft[1])
+                if rect.topleft[0] < 0:
+                    rect.topleft = (cons.WINDOW_WIDTH - cons.SQUARE_SIZE, rect.topleft[1])
+                if rect.topleft[1] >= cons.WINDOW_HEIGHT:
+                    rect.topleft = (rect.topleft[0], 0)
+                if rect.topleft[1] < 0:
+                    rect.topleft = (rect.topleft[0], cons.WINDOW_HEIGHT - cons.SQUARE_SIZE)
+                    
     def grow(self):
         self.tail_is_growing = True
     
