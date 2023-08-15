@@ -35,12 +35,11 @@ class GameMode:
     def update(self, dt):
         pass
     
-class SinglePlayerWithWalls(GameMode):
+class SinglePlayerNoWalls(GameMode):
     def __init__(self):
         super().__init__()
         self.screen = pygame.display.get_surface()
-        
-        Wall.create_boundry_wall()
+        Wall.wall_group.clear()
         
         #snake
         self.snake = Snake((5,5), cons.Direction.UP)
@@ -73,7 +72,10 @@ class SinglePlayerWithWalls(GameMode):
             self.snake = Snake((5,5))
             self.ball = BallGenerator(self.snake)
             
-class SinglePlayerNoWalls(SinglePlayerWithWalls):
+class SinglePlayerWithWalls(SinglePlayerNoWalls):
     def __init__(self):
         super().__init__()
-        Wall.wall_group = [Wall((100,100))]
+        Wall.create_boundry_wall()
+        
+class MultiPlayer(GameMode):
+    pass
