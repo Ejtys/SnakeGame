@@ -110,15 +110,18 @@ class MultiPlayer(GameMode):
         self.play_again(event)
     
     def play_again(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not self.snake.is_alive:
-            self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
-            self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad")
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            if not self.player1.is_alive or not self.player2.is_alive:
+                self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
+                self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad")
         
-            self.ball = BallGenerator(self.player1, self.player2)
+                self.ball = BallGenerator(self.player1, self.player2)
     
     def update(self, dt):
         self.ball.update()
         self.player1.update(dt)
         self.player2.update(dt)
-        self.player1_score_label.update_text(f"Score: {self.player1.get_score()}")
-        self.player2_score_label.update_text(f"Score: {self.player2.get_score()}")
+        self.player1.collide_with_snake(self.player2)
+        self.player2.collide_with_snake(self.player1)
+        self.player1_score_label.update_text(f"Player 1: {self.player1.get_score()}")
+        self.player2_score_label.update_text(f"Player 2: {self.player2.get_score()}")
