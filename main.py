@@ -82,11 +82,11 @@ class Game:
             
             self.event_loop()
             
-            self.draw()
-            
             self.ball.update()
             self.snake.update(dt)
+            self.score_label.update_text(f"Score: {self.snake.get_score()}")
             
+            self.draw()
             
             self.clock.tick()
                 

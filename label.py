@@ -13,4 +13,7 @@ class Label:
         rect.center = self.position
         screen.blit(text_surface, rect)
         
+    def update_text(self, text):
+        self.text = text
+        
     

@@ -79,6 +79,9 @@ class Snake:
         if event.key == pygame.K_DOWN and self.direction != cons.Direction.UP:
             self.next_direction = cons.Direction.DOWN
 
+    def get_score(self):
+        return len(self.tail)
+
     def self_collide(self):
         for rect in self.tail:
             if self.head.colliderect(rect):
