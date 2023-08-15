@@ -19,6 +19,8 @@ class Snake:
         self.delta = 0
         
         self.is_alive = True
+        
+        self.immoratality_count_down = 0
     
     def init_tail(self, cell, start_direction):
         self.tail = []
@@ -129,14 +131,18 @@ class Snake:
     def collide_with_snake(self, snake:"Snake"):
         for rect in snake.tail:
             if self.head.colliderect(rect):
+                if self.immoratality_count_down > 0:
+                    return
                 if self.tail:
                     del self.tail[0]
                     del self.direction_list[0]
+                    self.immoratality_count_down = 1
                 if not self.tail:
                     self.is_alive = False
                 return
         
     def update(self, dt):
+        self.immoratality_count_down -= 1
         self.self_collide()
         self.collide_with_wall()
         if self.is_alive:

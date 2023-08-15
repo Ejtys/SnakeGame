@@ -51,8 +51,8 @@ class SinglePlayerNoWalls(GameMode):
         
     def draw(self):
         Wall.draw_all()
-        self.snake.draw()
         self.ball.draw()
+        self.snake.draw()
         
         self.draw_lines()
         
@@ -95,9 +95,9 @@ class MultiPlayer(GameMode):
     
     def draw(self):
         Wall.draw_all()
+        self.ball.draw()
         self.player1.draw()
         self.player2.draw()
-        self.ball.draw()
         
         self.draw_lines()
         
