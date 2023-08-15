@@ -1,6 +1,6 @@
 import pygame, sys
 import cons
-from gameMode import SinglePlayerWithWalls, SinglePlayerNoWalls
+from gameMode import SinglePlayerWithWalls, SinglePlayerNoWalls, MultiPlayer
 
 class Game:
     def __init__(self) -> None:
@@ -12,7 +12,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.prev_time = pygame.time.get_ticks()
         
-        self.game_mode = SinglePlayerNoWalls()
+        self.game_mode = MultiPlayer()
         
     def quit_game(self, event):
         if event.type == pygame.QUIT:

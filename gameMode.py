@@ -42,7 +42,7 @@ class SinglePlayerNoWalls(GameMode):
         Wall.wall_group.clear()
         
         #snake
-        self.snake = Snake((5,5), cons.Direction.UP)
+        self.snake = Snake((5,5), cons.Direction.RIGHT)
         
         self.ball = BallGenerator(self.snake)
         
@@ -78,4 +78,47 @@ class SinglePlayerWithWalls(SinglePlayerNoWalls):
         Wall.create_boundry_wall()
         
 class MultiPlayer(GameMode):
-    pass
+    def __init__(self):
+        super().__init__()
+        self.screen = pygame.display.get_surface()
+        Wall.wall_group.clear()
+        
+        #snake
+        self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
+        self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad")
+        
+        self.ball = BallGenerator(self.player1, self.player2)
+        
+        #UI
+        self.player1_score_label = Label("Player 1: 0", (cons.WINDOW_WIDTH -75 , 17))
+        self.player2_score_label = Label("Player 2: 0", (75 , 17))
+    
+    def draw(self):
+        Wall.draw_all()
+        self.player1.draw()
+        self.player2.draw()
+        self.ball.draw()
+        
+        self.draw_lines()
+        
+        self.player1_score_label.draw(self.screen)
+        self.player2_score_label.draw(self.screen)
+    
+    def event_manager(self, event):
+        self.player1.event_manager(event)
+        self.player2.event_manager(event)
+        self.play_again(event)
+    
+    def play_again(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not self.snake.is_alive:
+            self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
+            self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad")
+        
+            self.ball = BallGenerator(self.player1, self.player2)
+    
+    def update(self, dt):
+        self.ball.update()
+        self.player1.update(dt)
+        self.player2.update(dt)
+        self.player1_score_label.update_text(f"Score: {self.player1.get_score()}")
+        self.player2_score_label.update_text(f"Score: {self.player2.get_score()}")
