@@ -33,6 +33,10 @@ class Game:
             self.quit_game(event)
             self.game_mode.event_manager(event)
             self.main_menu.event_manager(event)
+            
+            if event.type == cons.GAME_OVER_EVENT:
+                self.game_mode = GameMode()
+                self.main_menu.activate()
     
     def get_delta_time(self):
         current_time = pygame.time.get_ticks()

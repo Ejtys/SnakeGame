@@ -139,3 +139,7 @@ class Snake:
         self.collide_with_wall()
         if self.is_alive:
             self.move(dt)
+        else:
+            pygame.event.post(pygame.event.Event(cons.GAME_OVER_EVENT))
+            
+        

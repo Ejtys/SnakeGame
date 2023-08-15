@@ -26,3 +26,6 @@ class Direction(Enum):
     
 RED_SNAKE_COLORS = ("red", "green")
 WHITE_SNAKE_COLORS = ("black", "white")
+
+
+GAME_OVER_EVENT = pygame.USEREVENT + 1

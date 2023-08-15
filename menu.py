@@ -14,6 +14,10 @@ class Menu:
         
         self.active = True
     
+    def activate(self):
+        self.active = True
+    
+    
     def add_label(self, text, func = None):
         label = Label(text, (cons.WINDOW_WIDTH / 2, self.next_label_height), 36, func = func)
         label.set_selectable()
