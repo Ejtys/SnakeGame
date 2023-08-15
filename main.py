@@ -3,6 +3,7 @@ import cons
 from snake import Snake
 from ballGenerator import BallGenerator
 from wall import Wall
+from label import Label
 
 class Game:
     def __init__(self) -> None:
@@ -25,6 +26,9 @@ class Game:
         self.snake = Snake((5,5))
         
         self.ball = BallGenerator(self.snake)
+        
+        #UI
+        self.score_label = Label("Score: 0", (cons.WINDOW_WIDTH / 2, 20))
         
     def quit_game(self, event):
         if event.type == pygame.QUIT:
@@ -66,7 +70,10 @@ class Game:
         self.snake.draw()
         self.ball.draw()
         
-        self.draw_lines()      
+        self.draw_lines()
+        
+        self.score_label.render(self.screen)
+              
         pygame.display.flip()
     
     def run(self):
