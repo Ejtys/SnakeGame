@@ -17,6 +17,9 @@ class Label:
     
     def toggle_selected(self):
         self.selected = not self.selected
+        
+    def press_label(self):
+        self.func[0](self.func[1])
 
     def render(self, screen):
         text_surface = self.font.render(self.text, True, self.color)

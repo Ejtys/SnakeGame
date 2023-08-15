@@ -16,9 +16,12 @@ class Game:
         self.game_mode = GameMode()
         
         self.main_menu = Menu("Select game mode:")
-        self.main_menu.add_label("Single player")
-        self.main_menu.add_label("Single player with walls")
-        self.main_menu.add_label("MultiPlayer")
+        self.main_menu.add_label("Single player", func=(self.select_game_mode, SinglePlayerNoWalls))
+        self.main_menu.add_label("Single player with walls", func=(self.select_game_mode, SinglePlayerWithWalls))
+        self.main_menu.add_label("MultiPlayer", func=(self.select_game_mode, MultiPlayer))
+    
+    def select_game_mode(self, game_mode):
+        self.game_mode = game_mode()
         
     def quit_game(self, event):
         if event.type == pygame.QUIT:

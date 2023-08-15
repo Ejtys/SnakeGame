@@ -49,4 +49,5 @@ class Menu:
                 self.labels[self.selected].toggle_selected()
                 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                print("pressed")
+                self.active = False
+                self.labels[self.selected].press_label()
