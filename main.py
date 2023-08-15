@@ -28,7 +28,7 @@ class Game:
         self.ball = BallGenerator(self.snake)
         
         #UI
-        self.score_label = Label("Score: 0", (cons.WINDOW_WIDTH / 2, 20))
+        self.score_label = Label("Score: 0", (cons.WINDOW_WIDTH / 2, 17))
         
     def quit_game(self, event):
         if event.type == pygame.QUIT:
@@ -72,7 +72,7 @@ class Game:
         
         self.draw_lines()
         
-        self.score_label.render(self.screen)
+        self.score_label.draw(self.screen)
               
         pygame.display.flip()
     
