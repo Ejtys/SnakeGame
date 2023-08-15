@@ -23,3 +23,6 @@ class Direction(Enum):
     DOWN = Vector(0, SQUARE_SIZE)
     LEFT = Vector(-SQUARE_SIZE, 0)
     RIGHT = Vector(SQUARE_SIZE, 0)
+    
+RED_SNAKE_COLORS = ("red", "green")
+WHITE_SNAKE_COLORS = ("black", "white")

@@ -5,10 +5,12 @@ from wall import Wall
 
 
 class Snake:
-    def __init__(self, cell, start_direction = cons.Direction.RIGHT, controls = None) -> None:
+    def __init__(self, cell, start_direction = cons.Direction.RIGHT, 
+                 controls = None, colors = cons.RED_SNAKE_COLORS) -> None:
         self.screen = pygame.display.get_surface()
         
         self.controls = controls
+        self.colors = colors
         
         self.head = pygame.Rect(self.cell_to_pos(cell), (cons.SQUARE_SIZE, cons.SQUARE_SIZE))
         
@@ -43,9 +45,9 @@ class Snake:
     
     def draw(self):
         for rect in self.tail:
-            pygame.draw.rect(self.screen, "green", rect)
+            pygame.draw.rect(self.screen, self.colors[1], rect)
         
-        pygame.draw.rect(self.screen, "red", self.head)
+        pygame.draw.rect(self.screen, self.colors[0], self.head)
     
     def move(self,dt):
         self.delta += dt

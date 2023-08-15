@@ -85,7 +85,7 @@ class MultiPlayer(GameMode):
         
         #snake
         self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
-        self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad")
+        self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
         
         self.ball = BallGenerator(self.player1, self.player2)
         
@@ -113,7 +113,7 @@ class MultiPlayer(GameMode):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             if not self.player1.is_alive or not self.player2.is_alive:
                 self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
-                self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad")
+                self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
         
                 self.ball = BallGenerator(self.player1, self.player2)
     
