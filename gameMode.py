@@ -72,3 +72,8 @@ class SinglePlayerWithWalls(GameMode):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not self.snake.is_alive:
             self.snake = Snake((5,5))
             self.ball = BallGenerator(self.snake)
+            
+class SinglePlayerNoWalls(SinglePlayerWithWalls):
+    def __init__(self):
+        super().__init__()
+        Wall.wall_group = [Wall((100,100))]

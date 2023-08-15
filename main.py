@@ -1,10 +1,6 @@
 import pygame, sys
 import cons
-from snake import Snake
-from ballGenerator import BallGenerator
-from wall import Wall
-from label import Label
-from gameMode import SinglePlayerWithWalls
+from gameMode import SinglePlayerWithWalls, SinglePlayerNoWalls
 
 class Game:
     def __init__(self) -> None:
@@ -16,7 +12,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.prev_time = pygame.time.get_ticks()
         
-        self.game_mode = SinglePlayerWithWalls()
+        self.game_mode = SinglePlayerNoWalls()
         
     def quit_game(self, event):
         if event.type == pygame.QUIT:
