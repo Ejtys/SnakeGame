@@ -3,7 +3,9 @@ import cons
 from label import Label
 
 class Menu:
-    def __init__(self, title) -> None:
+    menus = []
+    def __init__(self, name, title) -> None:
+        self.name = name
         self.screen = pygame.display.get_surface()
         
         self.title = Label(title, (cons.WINDOW_WIDTH / 2, 70), 48)
@@ -12,11 +14,44 @@ class Menu:
         self.next_label_height = 150
         self.selected = 0
         
-        self.active = True
+        self.active = False
+        
+        Menu.menus.append(self)
+    
+    @staticmethod
+    def draw_all():
+        for menu in Menu.menus:
+            menu.draw()
+    
+    @staticmethod
+    def event_manager(event):
+        for menu in Menu.menus:
+            menu.event_loop(event)
+    
+    @staticmethod
+    def get_menu_by_name(name) -> "Menu":
+        for menu in Menu.menus:
+            if menu.name == name:
+                return menu
+    
+    @staticmethod
+    def activate_by_name(name):
+        for menu in Menu.menus:
+            menu.deactivate()
+        Menu.get_menu_by_name(name).activate()
+        
+    @staticmethod
+    def dectivate_by_name(name):
+        Menu.get_menu_by_name(name).deactivate()
     
     def activate(self):
         self.active = True
     
+    def deactivate(self):
+        self.active = False
+    
+    def update_title(self, title):
+        self.title.update_text(title)
     
     def add_label(self, text, func = None):
         label = Label(text, (cons.WINDOW_WIDTH / 2, self.next_label_height), 36, func = func)
@@ -36,7 +71,7 @@ class Menu:
     def update(self, dt):
         pass
     
-    def event_manager(self, event):
+    def event_loop(self, event):
         if self.active:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.labels[self.selected].toggle_selected()

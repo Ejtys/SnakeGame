@@ -34,6 +34,8 @@ class GameMode:
     
     def update(self, dt):
         pass
+    def play_again(self):
+        pass
     
 class SinglePlayerNoWalls(GameMode):
     def __init__(self):
@@ -42,7 +44,7 @@ class SinglePlayerNoWalls(GameMode):
         Wall.wall_group.clear()
         
         #snake
-        self.snake = Snake((5,5), cons.Direction.RIGHT)
+        self.snake = Snake("Player", (5,5), cons.Direction.RIGHT)
         
         self.balls = [BallGenerator(self.snake) for _ in range(3)]
         
@@ -61,18 +63,19 @@ class SinglePlayerNoWalls(GameMode):
         
     def event_manager(self, event):
         self.snake.event_manager(event)
-        self.play_again(event)
         
     def update(self, dt):
-        for ball in self.balls:
-            ball.update()
-        self.snake.update(dt)
-        self.score_label.update_text(f"Score: {self.snake.get_score()}")
+        if not self.is_paused:
+            for ball in self.balls:
+                ball.update()
+            self.snake.update(dt)
+            self.score_label.update_text(f"Score: {self.snake.get_score()}")
         
-    def play_again(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and not self.snake.is_alive:
-            self.snake = Snake((5,5))
-            self.balls = [BallGenerator(self.snake) for _ in range(len(self.balls))]
+    def play_again(self):
+        self.snake = Snake("Player", (5,5))
+        self.balls = [BallGenerator(self.snake) for _ in range(len(self.balls))]
+        self.is_paused = False
+        print("game")
             
 class SinglePlayerWithWalls(SinglePlayerNoWalls):
     def __init__(self):
@@ -87,8 +90,8 @@ class MultiPlayer(GameMode):
         Wall.wall_group.clear()
         
         #snake
-        self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
-        self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
+        self.player1 = Snake("Player 1", (cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
+        self.player2 = Snake("Player 2", (5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
         
         self.ball = BallGenerator(self.player1, self.player2)
         
@@ -110,21 +113,20 @@ class MultiPlayer(GameMode):
     def event_manager(self, event):
         self.player1.event_manager(event)
         self.player2.event_manager(event)
-        self.play_again(event)
     
     def play_again(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            if not self.player1.is_alive or not self.player2.is_alive:
-                self.player1 = Snake((cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
-                self.player2 = Snake((5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
-        
-                self.ball = BallGenerator(self.player1, self.player2)
+        self.player1 = Snake("Player 1", (cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
+        self.player2 = Snake("Player 1", (5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
+
+        self.ball = BallGenerator(self.player1, self.player2)
+        self.is_paused = False
     
     def update(self, dt):
-        self.ball.update()
-        self.player1.update(dt)
-        self.player2.update(dt)
-        self.player1.collide_with_snake(self.player2)
-        self.player2.collide_with_snake(self.player1)
-        self.player1_score_label.update_text(f"Player 1: {self.player1.get_score()}")
-        self.player2_score_label.update_text(f"Player 2: {self.player2.get_score()}")
+        if not self.is_paused:
+            self.ball.update()
+            self.player1.update(dt)
+            self.player2.update(dt)
+            self.player1.collide_with_snake(self.player2)
+            self.player2.collide_with_snake(self.player1)
+            self.player1_score_label.update_text(f"Player 1: {self.player1.get_score()}")
+            self.player2_score_label.update_text(f"Player 2: {self.player2.get_score()}")

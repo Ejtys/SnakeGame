@@ -19,7 +19,10 @@ class Label:
         self.selected = not self.selected
         
     def press_label(self):
-        self.func[0](self.func[1])
+        if len(self.func) > 1:
+            self.func[0](*self.func[1:])
+        else:
+            self.func[0]()
 
     def render(self, screen):
         text_surface = self.font.render(self.text, True, self.color)

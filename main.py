@@ -15,12 +15,25 @@ class Game:
         
         self.game_mode = GameMode()
         
-        self.main_menu = Menu("Select game mode:")
-        self.main_menu.add_label("Single player", func=(self.select_game_mode, SinglePlayerNoWalls))
-        self.main_menu.add_label("Single player with walls", func=(self.select_game_mode, SinglePlayerWithWalls))
-        self.main_menu.add_label("MultiPlayer", func=(self.select_game_mode, MultiPlayer))
+        
+        main_menu = Menu("Main_menu", "Select game mode:")
+        main_menu.add_label("Single player", func=(self.select_game_mode, SinglePlayerNoWalls))
+        main_menu.add_label("Single player with walls", func=(self.select_game_mode, SinglePlayerWithWalls))
+        main_menu.add_label("MultiPlayer", func=(self.select_game_mode, MultiPlayer))
+        
+        main_menu.activate()
+        
+        game_over_menu = Menu("Game_over_menu", "Do you want to play again?")
+        game_over_menu.add_label("Play again", func=(self.play_again,))
+        game_over_menu.add_label("Back to main menu", func=(Menu.activate_by_name, "Main_menu"))
+        
+        
+    def play_again(self):
+        self.game_mode.play_again()
     
     def select_game_mode(self, game_mode):
+        for menu in Menu.menus:
+            menu.deactivate()
         self.game_mode = game_mode()
         
     def quit_game(self, event):
@@ -32,11 +45,11 @@ class Game:
         for event in pygame.event.get():
             self.quit_game(event)
             self.game_mode.event_manager(event)
-            self.main_menu.event_manager(event)
+            Menu.event_manager(event)
             
             if event.type == cons.GAME_OVER_EVENT:
-                self.game_mode = GameMode()
-                self.main_menu.activate()
+                self.game_mode.is_paused = True
+                Menu.get_menu_by_name("Game_over_menu").activate()
     
     def get_delta_time(self):
         current_time = pygame.time.get_ticks()
@@ -48,7 +61,7 @@ class Game:
         self.screen.fill(cons.BACKGROUND_COLOR)
         
         self.game_mode.draw()
-        self.main_menu.draw()
+        Menu.draw_all()
               
         pygame.display.flip()
     
@@ -62,7 +75,7 @@ class Game:
             
             self.draw()
             
-            self.clock.tick(10)
+            self.clock.tick(6)
                 
 if __name__ == "__main__":
     Game().run()

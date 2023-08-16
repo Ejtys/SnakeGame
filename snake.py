@@ -5,9 +5,10 @@ from wall import Wall
 
 
 class Snake:
-    def __init__(self, cell, start_direction = cons.Direction.RIGHT, 
+    def __init__(self, name, cell, start_direction = cons.Direction.RIGHT, 
                  controls = None, colors = cons.RED_SNAKE_COLORS) -> None:
         self.screen = pygame.display.get_surface()
+        self.name = name
         
         self.controls = controls
         self.colors = colors
@@ -148,6 +149,6 @@ class Snake:
         if self.is_alive:
             self.move(dt)
         else:
-            pygame.event.post(pygame.event.Event(cons.GAME_OVER_EVENT))
+            pygame.event.post(pygame.event.Event(cons.GAME_OVER_EVENT, dead = self.name, mode="multiplayer"))
             
         
