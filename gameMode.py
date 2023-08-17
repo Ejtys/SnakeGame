@@ -75,7 +75,6 @@ class SinglePlayerNoWalls(GameMode):
         self.snake = Snake("Player", (5,5))
         self.balls = [BallGenerator(self.snake) for _ in range(len(self.balls))]
         self.is_paused = False
-        print("game")
             
 class SinglePlayerWithWalls(SinglePlayerNoWalls):
     def __init__(self):
@@ -114,7 +113,7 @@ class MultiPlayer(GameMode):
         self.player1.event_manager(event)
         self.player2.event_manager(event)
     
-    def play_again(self, event):
+    def play_again(self):
         self.player1 = Snake("Player 1", (cons.COLS - 6, 5), cons.Direction.LEFT, "arrows")
         self.player2 = Snake("Player 1", (5,5), cons.Direction.RIGHT, "wsad", cons.WHITE_SNAKE_COLORS)
 

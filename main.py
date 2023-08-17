@@ -75,7 +75,7 @@ class Game:
             
             self.draw()
             
-            self.clock.tick(6)
+            self.clock.tick(10)
                 
 if __name__ == "__main__":
     Game().run()
